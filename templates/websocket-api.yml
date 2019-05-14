@@ -1,0 +1,38 @@
+apiVersion: v1 
+kind: Service 
+metadata:
+  name: websocket-api
+  labels:
+    run: websocket-api 
+spec:
+  type: NodePort
+  ports:
+  - port: 8080
+    protocol: TCP
+    name: http
+  selector:
+    run: websocket-api 
+--- 
+apiVersion: apps/v1beta2 
+kind: Deployment 
+metadata:
+  name: websocket-api 
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      run: websocket-api
+  template:
+    metadata:
+      labels:
+        run: websocket-api
+    spec:
+      imagePullSecrets:
+      - name: {{.Values.registry}}
+      containers:
+      - name: websocket-api
+        image: 13.74.36.164:5000/vio/websocket-api:0.0.1
+        imagePullPolicy: Always
+        env:
+        - name: ARGS
+          value: "-Xms32m -Xmx512m -Dspring.profiles.active=k8s-eureka,native -Dspring.cloud.config.discovery.enabled=false"

@@ -1,0 +1,39 @@
+apiVersion: v1 
+kind: Service 
+metadata:
+  name: rtc-channel-ms-bridge
+  labels:
+    run: rtc-channel-ms-bridge 
+spec:
+  type: NodePort
+  ports:
+  - port: 8080
+    protocol: TCP
+    name: http
+  selector:
+    run: rtc-channel-ms-bridge 
+--- 
+apiVersion: apps/v1beta2 
+kind: Deployment 
+metadata:
+  name: rtc-channel-ms-bridge 
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      run: rtc-channel-ms-bridge
+  template:
+    metadata:
+      labels:
+        run: rtc-channel-ms-bridge
+    spec:
+      imagePullSecrets:
+      - name: {{.Values.registry}}
+      containers:
+      - name: rtc-channel-ms-bridge
+        image: 13.74.36.164:5000/messaging/rtc-channel-ms-bridge-mediasoup:latest
+        imagePullPolicy: Always
+        env:
+        - name: ARGS
+          value: "-Xms32m -Xmx512m -Dspring.profiles.active=k8s-eureka,native -Dspring.cloud.config.discovery.enabled=false -Dbridge.url={{.Values.mediaserver}}"
+        

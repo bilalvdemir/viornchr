@@ -1,0 +1,11 @@
+name: videoconferencenew
+version: 0.0.0
+appVersion: 0.0.0
+description: Video Conference Chart New
+icon: https://raw.githubusercontent.com/bilalvdemir/videoconference2/master/video_conferencing.png
+keywords:
+- Nginx
+maintainers:
+  - name: Bilal Demir
+engine: nginx
+icon: https://raw.githubusercontent.com/bilalvdemir/videoconference2/master/video_conferencing.png

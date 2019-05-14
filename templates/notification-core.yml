@@ -1,0 +1,38 @@
+apiVersion: v1 
+kind: Service 
+metadata:
+  name: notification-core
+  labels:
+    run: notification-core 
+spec:
+  type: NodePort
+  ports:
+  - port: 8080
+    protocol: TCP
+    name: http
+  selector:
+    run: notification-core 
+--- 
+apiVersion: apps/v1beta2 
+kind: Deployment 
+metadata:
+  name: notification-core 
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      run: notification-core
+  template:
+    metadata:
+      labels:
+        run: notification-core
+    spec:
+      imagePullSecrets:
+      - name: {{.Values.registry}}
+      containers:
+      - name: notification-core
+        image: 13.74.36.164:5000/vio/notification-core:0.0.1
+        imagePullPolicy: Always
+        env:
+        - name: ARGS
+          value: "-Xms32m -Xmx512m -Dspring.profiles.active=k8s-eureka,native -Dspring.cloud.config.discovery.enabled=false -Dhazelcast.groupName=VioNotificationCore"

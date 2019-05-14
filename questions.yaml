@@ -1,0 +1,14 @@
+categories:
+- nginx
+- cassandra
+questions:
+- variable: mediaserver
+  default: "http://IP_ADDRESS:PORT"
+  description: "Mediasoup Media Server"
+  label: Mediasoup media server Url?
+  type: string
+- variable: registry
+  default: "sampleregistry"
+  description: "Registry Name for K8s İmagePullSecrets"
+  label: Registry Name for K8s İmagePullSecrets?
+  type: string

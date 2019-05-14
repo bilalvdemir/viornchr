@@ -1,0 +1,44 @@
+apiVersion: v1 
+kind: Service 
+metadata:
+  name: mp-nginx
+  labels:
+    run: mp-nginx 
+spec:
+  type: NodePort
+  ports:
+  - port: 443
+    protocol: TCP
+    nodePort: 30100
+    name: https
+  - port: 80
+    protocol: TCP
+    nodePort: 30099
+    name: http
+  selector:
+    run: mp-nginx 
+--- 
+apiVersion: apps/v1beta2 
+kind: Deployment 
+metadata:
+  name: mp-nginx 
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      run: mp-nginx
+  template:
+    metadata:
+      labels:
+        run: mp-nginx
+    spec:
+      imagePullSecrets:
+      - name: {{.Values.registry}}
+      containers:
+      - name: mp-nginx
+        image: 13.74.36.164:5000/messaging/mp-nginx:rancher
+        imagePullPolicy: Always
+        resources:
+          requests:
+            cpu: "5m"
+            memory: "128Mi"

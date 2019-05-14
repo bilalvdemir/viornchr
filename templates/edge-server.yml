@@ -1,0 +1,38 @@
+apiVersion: v1 
+kind: Service 
+metadata:
+  name: edge-server
+  labels:
+    run: edge-server 
+spec:
+  type: NodePort
+  ports:
+  - port: 8080
+    protocol: TCP
+    name: http
+  selector:
+    run: edge-server 
+--- 
+apiVersion: apps/v1beta2 
+kind: Deployment 
+metadata:
+  name: edge-server 
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      run: edge-server
+  template:
+    metadata:
+      labels:
+        run: edge-server
+    spec:
+      imagePullSecrets:
+      - name: {{.Values.registry}}
+      containers:
+      - name: edge-server
+        image: 13.74.36.164:5000/vio/edge-server:0.0.2
+        imagePullPolicy: Always
+        env:
+        - name: ARGS
+          value: "-Xms32m -Xmx512m -Dspring.profiles.active=k8s-eureka,native -Dspring.cloud.config.discovery.enabled=false"

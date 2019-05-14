@@ -1,0 +1,42 @@
+apiVersion: v1 
+kind: Service 
+metadata:
+  name: sessionid-core
+  labels:
+    run: sessionid-core 
+spec:
+  type: NodePort
+  ports:
+  - port: 8080
+    protocol: TCP
+    name: http
+  selector:
+    run: sessionid-core 
+--- 
+apiVersion: apps/v1beta2 
+kind: Deployment 
+metadata:
+  name: sessionid-core 
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      run: sessionid-core
+  template:
+    metadata:
+      labels:
+        run: sessionid-core
+    spec:
+      imagePullSecrets:
+      - name: {{.Values.registry}}
+      containers:
+      - name: sessionid-core
+        image: 13.74.36.164:5000/vio/sessionid-core:0.0.1
+        imagePullPolicy: Always
+        resources:
+          requests:
+            cpu: "10m"
+            memory: "256Mi"
+        env:
+        - name: ARGS
+          value: "-Xms32m -Xmx512m -Dspring.profiles.active=k8s-eureka,native -Dspring.cloud.config.discovery.enabled=false"

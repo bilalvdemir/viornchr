@@ -1,0 +1,8 @@
+
+#  configs
+#categoryx:
+  #bb: "jrottenberg/ffmpeg:4.0"
+  #nn:
+    #uu: "640x360"
+    #nn: "24"
+    #nn: "2000000"

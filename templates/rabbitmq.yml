@@ -1,0 +1,46 @@
+apiVersion: v1 
+kind: Service 
+metadata:
+  name: mp-rabbitmq
+  labels:
+    run: mp-rabbitmq 
+spec:
+  type: NodePort
+  ports:
+  - port: 5672
+    protocol: TCP
+    name: mqtt
+  - port: 15672
+    protocol: TCP
+    name: ui
+  selector:
+    run: mp-rabbitmq 
+--- 
+apiVersion: apps/v1beta2 
+kind: Deployment 
+metadata:
+  name: mp-rabbitmq 
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      run: mp-rabbitmq
+  template:
+    metadata:
+      labels:
+        run: mp-rabbitmq
+    spec:
+      imagePullSecrets:
+      - name: {{.Values.registry}}
+      containers:
+      - name: mp-rabbitmq
+        image: 13.74.36.164:5000/vio/mp-rabbitmq:0.0.1
+        imagePullPolicy: Always
+        env:
+        - name: LOG
+          value: "log"
+        - name: NAMESPACE
+          valueFrom:
+            fieldRef:
+              apiVersion: v1
+              fieldPath: metadata.namespace
