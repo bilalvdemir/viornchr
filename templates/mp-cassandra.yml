@@ -40,6 +40,11 @@ spec:
             - containerPort: 9042
               name: cql
           env:
+            - name: POD_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: metadata.namespace
             - name: CASSANDRA_SEEDS
               value: mp-cassandra-0.mp-cassandra.$(POD_NAMESPACE).svc.cluster.local
             - name: MAX_HEAP_SIZE
@@ -54,8 +59,3 @@ spec:
               value: "Rack1"
             - name: CASSANDRA_ENDPOINT_SNITCH
               value: GossipingPropertyFileSnitch
-            - name: POD_NAMESPACE
-              valueFrom:
-                fieldRef:
-                  apiVersion: v1
-                  fieldPath: metadata.namespace
