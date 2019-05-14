@@ -1,8 +1,4 @@
-
 #  configs
-#categoryx:
-  #bb: "jrottenberg/ffmpeg:4.0"
-  #nn:
-    #uu: "640x360"
-    #nn: "24"
-    #nn: "2000000"
+#questions:
+  #mediaserver: "http://192.168.2.1:8080"
+

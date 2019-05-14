@@ -1,11 +1,15 @@
-name: videoconferencenew
-version: 0.0.0
-appVersion: 0.0.0
-description: Video Conference Chart New
-icon: https://raw.githubusercontent.com/bilalvdemir/videoconference2/master/video_conferencing.png
+name: videoconference
+version: 1.0.0
+appVersion: 1.0.0
+description: Video Conference Chart
+icon: https://raw.githubusercontent.com/bilalvdemir/viornchr/master/video_conferencing.png
 keywords:
 - Nginx
+- Cassandra
+- RabbitMQ
+- Edge Server
+- Eureka
 maintainers:
   - name: Bilal Demir
 engine: nginx
-icon: https://raw.githubusercontent.com/bilalvdemir/videoconference2/master/video_conferencing.png
+icon: https://raw.githubusercontent.com/bilalvdemir/viornchr/master/video_conferencing.png
