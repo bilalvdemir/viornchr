@@ -31,8 +31,8 @@ spec:
       - name: {{.Values.registry}}
       containers:
       - name: rtc-channel-core
-        image: 13.74.36.164:5000/vio/rtc-channel-core:0.0.1
+        image: 13.74.36.164:5000/messaging/rtc-channel-core:autologout
         imagePullPolicy: Always
         env:
         - name: ARGS
-          value: " -Dspring.profiles.active=k8s-eureka,native -Dspring.cloud.config.discovery.enabled=false"
+          value: " -Dspring.profiles.active=k8s-eureka,native -Dspring.cloud.config.discovery.enabled=false -Dhazelcast.enableKubernetes=false"

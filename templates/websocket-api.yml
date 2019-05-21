@@ -31,7 +31,7 @@ spec:
       - name: {{.Values.registry}}
       containers:
       - name: websocket-api
-        image: 13.74.36.164:5000/vio/websocket-api:0.0.1
+        image: 13.74.36.164:5000/messaging/websocket-api:autologout
         imagePullPolicy: Always
         env:
         - name: ARGS
